@@ -1,0 +1,91 @@
+_with-bindings: with-bindings_
+==========================================
+
+By Jay McCarthy (jay at kenyamountain dot com)
+
+Keywords: _dev-tools web_
+
+Introduction
+============
+
+_with-bindings.ss_
+---------------
+
+This file contains the main syntaxes. Require it like this:
+
+> (require (planet "with-bindings.ss" ("jaymccarthy" "with-bindings.plt" 1)))
+
+[Thanks be to Jens Soegaard for documentation]
+
+> (with-binding bindings (single-name ...) body ...)
+
+Evaluates the body expressions in an environment, where each 
+  single-name is bound the value associated with single-name
+              in bindings, if single-name is not present in
+              bindings, it is bound to #f
+
+
+> (with-bindings bindings 
+                 (bool-name ...) 
+                 (single-name ...) 
+                 (multiple-name ...) 
+                 body ...)
+
+Evaluates the body in an environment where each
+  bool-name      is bound to #t, if bool-name is present in bindings
+                 and #f otherwise
+  single-name    is bound the value associated with single-name
+                 in bindings, if single-name is not present in
+                 bindings, it is bound to #f
+  multiple-name  is bound to a list of the values associated to
+                 multiple-name in bindings, (if no bindings are
+                 present, it is bound to the empty list)
+
+
+> (with-bindings/default-values bindings 
+    (bool-name ...) 
+    ((single-name single-default) ...) 
+    ((multiple-name multiple-default) ...) 
+    body ...)
+
+Evaluates the body in an environment where each
+  bool-name      is bound to #t, if bool-name is present in bindings
+  single-name    is bound to the value associated with single-name
+                 in bindings, if single-name is not present in
+                 bindings, then it is bound to the corresponding
+                 single-default
+  multiple-name  is bound to a list of the values associated to
+                 multiple-name in bindings, if no bindings are
+                 present, it is bound to the corresponding
+                 multuple-default
+
+> (with-bindings/defaults bindings 
+    (bool-name ...) 
+    ((single-name single-default-thunk) ...) 
+    ((multiple-name multiple-default-thunk) ...) 
+    body ...)
+
+Evaluates the body in an environment where each
+  bool-name      is bound to #t, if bool-name is present in bindings
+  single-name    is bound to the value associated with single-name
+                 in bindings, if single-name is not present in
+                 bindings, then it is bound to the result of
+                 calling single-default-thunk
+  multiple-name  is bound to a list of the values associated to
+                 multiple-name in bindings, if no bindings are
+                 present, it is bound to the result of calling
+                 the multiple-default-thunk
+
+
+Notes and Limitations
+====================
+
+History
+=======
+
+v1.0 :: May 25th, 2005
+	* Initial revision
+
+References
+==========
+
